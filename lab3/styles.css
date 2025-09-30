@@ -1,0 +1,25 @@
+body{
+    background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+}
+nav{
+    background-color: midnightblue;
+    padding: 10px;
+}
+footer{
+    background-color: midnightblue;
+    color: white;
+    padding: 10px;
+}
+main{
+    padding: 20px;
+    margin: 20px 0;
+
+
+}
+nav a{
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
