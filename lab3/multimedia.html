@@ -21,26 +21,51 @@
     </head>
     
     <body>
+
+        <section class="foto-section">
+        <div class="texto-sobreposto">
+            Multimédia
+        </div>
+    </section>
+
+       
+
         <header>
-            <h1>A minha Cidade</h1>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="local.html">Localização</a>
-                <a href="multimedia.html">Multimédia</a>
-                <a href="info.html">Informação</a>
+            <nav class="menu">
+                <article class ="card">
+                <h3><a href="index.html">Home</a></h3>
+                </article>
+                <article class ="card">
+                <h3><a href="local.html">Localização</a></h3>
+                </article>
+                <article class ="card">
+                <h3><a href="multimedia.html">Multimédia</a></h3>
+                </article>
+                <article class ="card">
+                <h3><a href="info.html">Informação</a></h3>
+                </article>
+                
             </nav>
         </header>
         <main>
-            <h2>Multimedia</h2>
-            <p>
-                <a href="#fotografias">Fotografias </a>
-                <a href="#video">Video </a>
-                <a href="#poesia">Poesia </a>
-            </p>
-            <p>Nesta página encontra conteúdos multimédia.</p>
-            <section>
+            <nav class="menu">
+                <article class ="card">
+                <h3><a href="#fotografias">Fotografias </a></h3>
+                </article>
+                <article class ="card">
+                <h3><a href="#video">Video </a></h3>
+                </article>
+                <article class ="card">
+                <h3><a href="#poesia">Poesia </a></h3>
+                </article>
+                
+                
+            </nav>
+            
+            
+            <section class="fotos-section">
                 <h3 id="fotografias">Fotografias</h3>
-                <div class="fotografias">
+                <div class="galeria">
                     <img src="images/3.jpg" alt="Vista da Cidade">
                     <img src="images/2.jpg" alt="Pasteis de Vouzela">
                     <img src="images/1.jpg" alt="Poço Azul">
@@ -51,12 +76,23 @@
                     <img src="images/8.png" alt="Termas da Rainha D.Amélia">
 
             </section>
-            <section>
-                <h3 id="video"> Vídeo</h3>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/vzzNr6FnoSI?si=rnjibQG1CmRqoluP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+            <section class="video-section">
+                <h2 style="margin-bottom: 30px; font-size: 2.5rem; color: #1a237e;">Vídeo 360°</h2>
+                <iframe 
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/vzzNr6FnoSI?si=rnjibQG1CmRqoluP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
+              
+                title="Vídeo de Viseu" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+                </iframe>
             </section>
+
+    
+            
             <section>
-                <h3 id="poesia"> Poesia</h3>
+                <h3 id="poesia" class="poesia"> Poesia</h3>
                 <div> Viseu, Cidade de encanto
                 <p> Entre colinas de verde pintado,<p>
                 <p> ergue-se Viseu, berço sagrado.</p>

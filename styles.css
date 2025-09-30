@@ -1,6 +1,6 @@
 
 * {
-    margin: 0;
+    margin: 0px;
     padding: 0;
     box-sizing: border-box;
 }
@@ -16,7 +16,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 10px 20px;
     position: absolute; /* Fica em cima da hero */
     width: 100%;
     z-index: 10;
@@ -24,7 +24,7 @@ header {
 }
 
 header nav a {
-    margin-left: 1rem;
+    margin-left: 10px;
     text-decoration: none;
     color: #fff;
     font-weight: bold;
@@ -33,7 +33,7 @@ header nav a {
 
 .hero {
     height: 100vh; 
-    background: url("hero.jpg") no-repeat center center/cover;
+    background: url("hero.jpg") no-repeat center center/cover; /*coloquei assim senao a imagem ficava desformatada*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,7 +71,7 @@ header nav a {
 
 .btn {
     display: inline-block;
-    padding: 0.8rem 1.5rem;
+    padding: 13px 24px;
     background: #193380;
     color: #fff;
     text-decoration: none;
@@ -86,34 +86,34 @@ header nav a {
 
 
 main {
-    padding: 3rem 2rem;
+    padding: 30px 20px;
     background: #f9f9f9;
 }
 
 footer {
     text-align: center;
-    padding: 1rem;
+    padding: 10px;
     background: #222;
     color: #fff;
 }
 
 .projects {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    padding: 3rem 2rem;
+    background:#2a5298;
+    padding: 30px 20px;
     border-radius: 20px;
-    margin: 3rem auto;
+    margin: 30px;
     text-align: center;
     color: #fff;
 }
 
 .projects h2 {
-    font-size: 2.2rem;
-    margin-bottom: 0.5rem;
+    font-size: 36px;
+    margin-bottom: 8px;
 }
 
 .projects p {
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-size: 18px;
     color: #dcdcdc;
 }
 
@@ -121,6 +121,7 @@ footer {
 .projects-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     gap: 50px;
     
@@ -128,19 +129,53 @@ footer {
 .projects-container a {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:center;
     
 }
 
+.Tecnologias{
+    background: #2a5298;
+    padding: 30px 20px;
+    border-radius: 20px;
+    margin: 30px;
+    text-align: center;
+    color: #fff;
+}
+
+.tecnologias-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+.tecnologias-container a {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    
+}
+
+.Tecnologias h2 {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.Tecnologias p{
+    margin-bottom: 20px;
+    font-size: 18px;
+    color:#dcdcdc;
+
+}
 
 .card {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
-    padding: 1.5rem;
+    padding: 24px;
     width: 250px;
-    text-align: left;
+    text-align: center;
     color: #fff;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -153,11 +188,21 @@ footer {
 .card h3 a {
     text-decoration: none;
     color: #ffcc70;
-    font-size: 1.4rem;
+    font-size: 22px;
 }
 
 .card p {
-    margin-top: 0.5rem;
-    font-size: 0.95rem;
+    margin-top: 8px;
+    font-size: 14px;
     color: #e0e0e0;
+    
 }
+
+.Imagem{
+    display:flex;
+    justify-content: center;
+
+}
+
+
+

@@ -9,19 +9,30 @@
     
     <body>
         <header>
-            <h1>A minha Cidade</h1>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="local.html">Localização</a>
-                <a href="multimedia.html">Multimédia</a>
-                <a href="info.html">Informação</a>
+            <nav class="menu">
+                <article class ="card">
+                <h3><a href="index.html">Home</a></h3>
+                </article>
+                <article class ="card">
+                <h3><a href="local.html">Localização</a></h3>
+                </article>
+                <article class ="card">
+                <h3><a href="multimedia.html">Multimédia</a></h3>
+                </article>
+                <article class ="card">
+                <h3><a href="info.html">Informação</a></h3>
+                </article>
+                
             </nav>
         </header>
-        <main>
-            <h2>Informações</h2>
-            <p>Tabela:</p>
 
-            <table border="1">
+         
+  
+        <main class="info-grid">
+            <h2 class="info-title">Informações</h2>
+            <p class="info-desc">Conheça alguns dados e curiosidades sobre Viseu. Veja a tabela ao lado e a foto ilustrativa abaixo.</p>
+
+            <table border="1" class="info-table">
                 <tr>
                     <th rowspan="3">Demografia</th>
                     <th>População</th>
@@ -45,20 +56,24 @@
                     <td>Portugal</td>
                 </tr>
                 <tr>
-                    <th>Website</th>
-                    <th><a href="https://www.cm-viseu.pt/pt/">https://www.cm-viseu.pt/pt/</a></th>
+                    <th colspan="2">Website</th>
+                    <td><a href="https://www.cm-viseu.pt/pt/">https://www.cm-viseu.pt/pt/</a></td>
                 </tr>
             </table>
 
-            <h3>5 Curiosidades sobre Viseu</h3>
-            <ul>
+            <div class="info-photo-area">
+                <img src="images/foto.png" alt="Foto ilustrativa de Viseu" class="info-photo">
+                <img src="images/animal.png" alt="Foto ilustrativa de Viseu" class="info-photo">
+            </div>
+
+            <h3 class="info-curios-title">5 Curiosidades sobre Viseu</h3>
+            <ul class="info-curios-list">
                 <li>Viseu é conhecida como a "Cidade Jardim" devido aos seus belos espaços verdes e parques urbanos.</li>
                 <li>A cidade abriga o Museu Grão Vasco, dedicado ao famoso pintor renascentista português Vasco Fernandes.</li>
                 <li>O centro histórico de Viseu mantém a sua estrutura medieval praticamente intacta.</li>
                 <li>Viseu é o centro da região demarcada do Dão, uma das mais importantes regiões vinícolas de Portugal.</li>
                 <li>A cidade está associada à lenda do herói lusitano Viriato, que resistiu à ocupação romana.</li>
             </ul>
-            
         </main>
         <footer>
             <p>DIW 2025</p>
