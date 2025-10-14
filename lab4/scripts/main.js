@@ -14,7 +14,7 @@ function atualizarTexto() {
   contadorBox.textContent = `Contador: ${contador}`;
 }
 
-// Apenas aumenta o contador ao clicar
+
 contadorBox.addEventListener("click", () => {
   contador++;
   atualizarTexto();

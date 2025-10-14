@@ -1,0 +1,53 @@
+body {
+  
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  padding: 20px;
+}
+
+input[type="text"] {
+  background-color: powderblue;
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid lightsteelblue;
+  
+  
+}
+.input-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-submit input[type="text"] {
+  margin: 0;
+}
+
+.input-submit button {
+  padding: 6px 10px;
+  border: 1px solid #666;
+  background: #f0f0f0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.input-submit button:hover {
+  background: #e0e0e0;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 6px;
+}
+
+#countBtn {
+  padding: 6px 10px;
+  background:whitesmoke;
+}
+
+#countText {
+  margin-left: 8px;
+  font-weight: normal;
+}
