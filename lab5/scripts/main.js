@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  const pinta = document.getElementById('pinta');
+  const pinta = document.querySelector('pinta');
   ['Red','Green','Blue'].forEach(name => {
-    const btn = document.getElementById('btn' + name);
+    const btn = document.querySelector('#btn' + name);
     if (btn && pinta) btn.addEventListener('click', () => pinta.style.color = name.toLowerCase());
   });
 
 
-  const colorCycleInput = document.getElementById('colorCycleInput');
+  const colorCycleInput = document.querySelector('#colorCycleInput');
   if (colorCycleInput) {
     const colors = ['yellow','red','blue','gray'];
     let i = 0;
@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  const colorEnInput = document.getElementById('colorEnInput');
-  const submitColor = document.getElementById('submitColor');
+  const colorEnInput = document.querySelector('#colorEnInput');
+  const submitColor = document.querySelector('#submitColor');
   function validColor(s) { const st = new Option().style; st.color = s; return st.color !== ''; }
   if (submitColor && colorEnInput) {
     const apply = () => {
