@@ -2,7 +2,6 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -21,33 +20,64 @@
 
         <section id="produtos" aria-labelledby="produtos-titulo">
             <h2 id="produtos-titulo">Selecione os seus Produtos</h2>
-            <section id="catalogo" role="list" aria-label="Lista de produtos">
+            
+            <!-- Filtros, Ordenação e Pesquisa -->
+            <div class="filtros">
+                <label>Filtrar
+                    <select id="filtroCategorias">
+                        <option value="">Todas as categorias</option>
+                    </select>
+                </label>
                 
-            </section>
+                <label>Ordenar
+                    <select id="ordenarPreco">
+                        <option value="">Ordenar pelo preço</option>
+                        <option value="asc">Preço Crescente</option>
+                        <option value="desc">Preço Decrescente</option>
+                    </select>
+                </label>
+                
+                <label>Procurar
+                    <input type="text" id="pesquisarNome" placeholder="pesquise por produto">
+                </label>
+            </div>
+
+            <!-- Lista de Produtos -->
+            <div id="catalogo" role="list" aria-label="Lista de produtos"></div>
         </section>
-
-
-        <div id="cesto-wrapper">
-            <div id="total-cesto">Total: € 0.00</div>
-            <ul id="itens-cesto"></ul>
-        </div>
-
-        <div id="catalogo"></div>
-
-
-        
 
 
         <aside id="cesto" aria-labelledby="cesto-titulo">
             <h2 id="cesto-titulo">Cesto</h2>
-            <ul id="itens-cesto" aria-live="polite">
-            </ul>
+            
+            <!-- Lista do Cesto -->
+            <div id="itens-cesto" aria-live="polite"></div>
+            
+            <!-- Total -->
+            <p>Total: <span id="total">€ 0.00</span></p>
+
+            <!-- Opções de Compra -->
+            <div class="opcoes-compra">
+                <label>
+                    <input type="checkbox" id="deisiStudent">
+                    Sou estudante DEISI (25% desconto)
+                </label>
+                
+                <input type="text" id="cupao" placeholder="Código de cupão">
+                
+                <button id="btnComprar">Finalizar Compra</button>
+            </div>
+
+            <!-- Informações de Pagamento -->
+            <div id="valorFinal"></div>
+            <div id="referenciaPagamento"></div>
+            <div id="erroCompra" style="color: red;"></div>
         </aside>
 
     </main>
 
     <footer></footer>
-    <script src="produtos (2).js"></script>
     <script src="scripts/main.js"></script>
 
-    </body>
+</body>
+</html>
