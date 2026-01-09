@@ -3,12 +3,25 @@ const API_CATEGORIES = "https://deisishop.pythonanywhere.com/categories";
 const STORAGE_KEY = "cesto";
 
 const formatEUR = (n) =>
-  (Number(n) || 0).toLocaleString("pt-PT", { style: "currency", currency: "EUR" });
+  (Number(n) || 0).toLocaleString("en-GB", { style: "currency", currency: "EUR" });
+
+const PLACEHOLDER_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='150'><rect width='100%' height='100%' fill='%23eeeeee'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23888888' font-size='14'>No image</text></svg>";
+
+const API_ORIGIN = new URL(API_URL).origin;
+
+function getImageUrl(path) {
+  if (!path) return PLACEHOLDER_IMAGE;
+  try {
+    return new URL(path, API_ORIGIN).href;
+  } catch (e) {
+    return PLACEHOLDER_IMAGE;
+  }
+}
 
 const getCart = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 const saveCart = (cart) => localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
 const totalFrom = (cart) =>
-  cart.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 0), 0);
+  cart.reduce((s, i) => s + (Number(i.price)) * (Number(i.qty)), 0);
 
 const els = {
   products: document.querySelector("#catalogo"), 
@@ -26,33 +39,27 @@ const els = {
 };
 
 let products = [];
-let view = { categoria: "", ordem: "", termo: "" };
-let contadorReferencia = 0;
+let view = { category: "", order: "", term: "" };
 
-function gerarReferencia() {
-  const prefixo = "301024";
-  const sufixo = String(contadorReferencia).padStart(4, "0");
-  contadorReferencia = (contadorReferencia + 1) % 10000;
-  return `${prefixo}-${sufixo}`;
-}
+
 
 function renderProducts(list) {
   if (!els.products) return;
   els.products.innerHTML = "";
   list.forEach((p) => {
     const id = String(p.id);
-    const title = p.title || p.nome || p.name || "Produto";
-    const description = p.description || p.descricao || "";
-    const image = p.image || p.thumbnail || p.img || "images/placeholder.png";
-    const price = Number(p.price || p.preco || 0) || 0;
+    const title = p.title;
+    const description = p.description;
+    const image = getImageUrl(p.image);
+    const price = Number(p.price);
     const card = document.createElement("article");
     card.className = "produto";  
     card.innerHTML = `
-      <img src="${image}" alt="${title}" loading="lazy">
+      <img src="${image}" alt="${title}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER_IMAGE}'">
       <h3>${title}</h3>
       <p class="desc">${description}</p>
       <p class="preco">${formatEUR(price)}</p>
-      <button data-id="${id}">+ Adicionar ao Cesto</button>
+      <button data-id="${id}">+ Add to Cart</button>
     `;
     const btn = card.querySelector("button");
     if (btn) btn.addEventListener("click", () => addToCart(id));
@@ -62,39 +69,44 @@ function renderProducts(list) {
 
 function aplicarFiltrosOrdenacaoPesquisa() {
   let lista = [...products];
-  if (view.categoria) {
+  if (view.category) {
     lista = lista.filter(
-      (p) => String(p.category || p.categoria || "").toLowerCase() === view.categoria.toLowerCase()
+      (p) => String(p.category).toLowerCase() === view.category.toLowerCase()
     );
   }
-  if (view.termo) {
-    const t = view.termo.toLowerCase();
-    lista = lista.filter((p) => String(p.title || p.nome || p.name || "").toLowerCase().includes(t));
+  if (view.term) {
+    const t = view.term.toLowerCase();
+    lista = lista.filter((p) => String(p.title).toLowerCase().includes(t));
   }
-  if (view.ordem === "asc") {
-    lista.sort((a, b) => (Number(a.price || a.preco) || 0) - (Number(b.price || b.preco) || 0));
-  } else if (view.ordem === "desc") {
-    lista.sort((a, b) => (Number(b.price || b.preco) || 0) - (Number(a.price || a.preco) || 0));
+  if (view.order === "asc") {
+    lista.sort((a, b) => (Number(a.price)) - (Number(b.price)));
+  } else if (view.order === "desc") {
+    lista.sort((a, b) => (Number(b.price)) - (Number(a.price)));
   }
   renderProducts(lista);
 }
 
-function preencherCategorias(opcoes) {
+function preencherCategorias() {
   if (!els.filtro) return;
+
+  const categoriasFixas = ["T-shirts", "Canecas", "Meias"];
+
   els.filtro.innerHTML = '<option value="">Todas as categorias</option>';
-  opcoes.forEach((c) => {
+
+  categoriasFixas.forEach((c) => {
     const opt = document.createElement("option");
-    opt.value = c;
-    opt.textContent = c;
+    opt.value = c.toLowerCase(); // valor interno
+    opt.textContent = c;         // texto visível
     els.filtro.appendChild(opt);
   });
 }
+
 
 function renderCart(cart) {
   if (!els.cart || !els.total) return;
   els.cart.innerHTML = "";
   if (!cart.length) {
-    els.cart.innerHTML = "<p>O cesto está vazio.</p>";
+    els.cart.innerHTML = "<p>Cart is empty.</p>";
   } else {
     cart.forEach((item) => {
       const div = document.createElement("div");
@@ -103,10 +115,10 @@ function renderCart(cart) {
         <img src="${item.image}" alt="${item.title}" class="item-cesto-img" loading="lazy">
         <div class="item-cesto-info">
             <span class="item-cesto-nome">${item.title}</span>
-            <span class="item-cesto-preco">${formatEUR(item.price)} / un.</span>
-            <span>Quantidade: ${item.qty}</span>
+            <span class="item-cesto-preco">${formatEUR(item.price)} / unit</span>
+            <span>Quantity: ${item.qty}</span>
         </div>
-        <button class="btn-remover" data-id="${item.id}">Remover</button>
+          <button class="btn-remover" data-id="${item.id}">Remove</button>
       `;
       const rem = div.querySelector(".btn-remover");
       if (rem) rem.addEventListener("click", () => removeFromCart(item.id));
@@ -125,9 +137,9 @@ function addToCart(id) {
   else
     cart.push({
       id: prod.id,
-      title: prod.title || prod.nome || prod.name || "Produto",
-      image: prod.image || prod.thumbnail || prod.img || "images/placeholder.png",
-      price: Number(prod.price || prod.preco) || 0,
+      title: prod.title,
+      image: getImageUrl(prod.image),
+      price: Number(prod.price),
       qty: 1,
     });
   saveCart(cart);
@@ -142,28 +154,73 @@ function removeFromCart(id) {
 
 async function comprar() {
   if (!els.valorFinal || !els.ref || !els.erroCompra) return;
+
   els.valorFinal.textContent = "";
   els.ref.textContent = "";
   els.erroCompra.textContent = "";
+
   const cart = getCart();
+
   if (!cart.length) {
-    els.erroCompra.textContent = "O cesto está vazio.";
+    els.erroCompra.textContent = "Cart is empty.";
     return;
   }
-  let total = totalFrom(cart);
-  if (els.isStudent && els.isStudent.checked) total *= 0.75;
-  const finalValue = Number(total.toFixed(2));
-  const totalFormatado = formatEUR(finalValue);
-  const ref = gerarReferencia();
-  els.valorFinal.innerHTML = `<strong>Valor final a pagar (com eventuais descontos): ${totalFormatado}</strong>`;
-  els.ref.textContent = `Referência de pagamento: ${ref}`;
-  els.erroCompra.textContent = "";
+
+  const productsIds = [];
+  cart.forEach(item => {
+    for (let i = 0; i < item.qty; i++) {
+      productsIds.push(item.id);
+    }
+  });
+
+  const payload = {
+    products: productsIds,
+    student: !!(els.isStudent && els.isStudent.checked),
+    coupon: els.cupao && els.cupao.value ? els.cupao.value : "",
+    name: "Cliente DEISI"
+  };
+
+  try {
+    const response = await fetch("https://deisishop.pythonanywhere.com/buy", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || data.error) {
+      els.erroCompra.textContent =
+        data.error || data.message || "Purchase failed.";
+      return;
+    }
+
+    
+    els.valorFinal.innerHTML =
+      `<strong>Total to pay: ${formatEUR(data.totalCost)}</strong>`;
+
+    els.ref.textContent =
+      `Payment reference: ${data.reference}`;
+
+    // Limpar carrinho
+    saveCart([]);
+    renderCart([]);
+
+  } catch (e) {
+    els.erroCompra.textContent = "Network error. Try again later.";
+  }
 }
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
   if (!localStorage.getItem(STORAGE_KEY)) saveCart([]);
 
-  // carregar produtos da API
+  preencherCategorias();
+
   fetch(API_URL)
     .then((r) => {
       if (!r.ok) throw new Error("Network error");
@@ -175,10 +232,9 @@ document.addEventListener("DOMContentLoaded", function () {
       renderCart(getCart());
     })
     .catch(() => {
-      if (els.products) els.products.innerHTML = "<p>Não foi possível carregar os produtos.</p>";
+      if (els.products) els.products.innerHTML = "<p>Unable to load products.</p>";
     });
 
-  // carregar categorias da API; se falhar, extrair das products
   fetch(API_CATEGORIES)
     .then((r) => {
       if (!r.ok) throw new Error("Network error");
@@ -188,30 +244,30 @@ document.addEventListener("DOMContentLoaded", function () {
       const arr = Array.isArray(cats) ? cats : [];
       if (arr.length) preencherCategorias(arr);
       else {
-        const aPartirDosProdutos = [...new Set(products.map((p) => p.category || p.categoria).filter(Boolean))];
+        const aPartirDosProdutos = [...new Set(products.map((p) => p.category).filter(Boolean))];
         preencherCategorias(aPartirDosProdutos);
       }
     })
     .catch(() => {
-      const aPartirDosProdutos = [...new Set(products.map((p) => p.category || p.categoria).filter(Boolean))];
+      const aPartirDosProdutos = [...new Set(products.map((p) => p.category).filter(Boolean))];
       if (aPartirDosProdutos.length && els.filtro) preencherCategorias(aPartirDosProdutos);
     });
 
   if (els.filtro) {
     els.filtro.addEventListener("change", (e) => {
-      view.categoria = e.target.value;
+      view.category = e.target.value;
       aplicarFiltrosOrdenacaoPesquisa();
     });
   }
   if (els.ordenar) {
     els.ordenar.addEventListener("change", (e) => {
-      view.ordem = e.target.value;
+      view.order = e.target.value;
       aplicarFiltrosOrdenacaoPesquisa();
     });
   }
   if (els.search) {
     els.search.addEventListener("input", (e) => {
-      view.termo = e.target.value;
+      view.term = e.target.value;
       aplicarFiltrosOrdenacaoPesquisa();
     });
   }
