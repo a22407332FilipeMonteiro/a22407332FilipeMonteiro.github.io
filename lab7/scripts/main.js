@@ -41,6 +41,10 @@ const els = {
 let products = [];
 let view = { category: "", order: "", term: "" };
 
+function renderRatings(rate) {
+  const r = Math.round(Number(rate) || 0);
+  return "⭐".repeat(r) + "☆".repeat(5 - r);
+}
 
 
 function renderProducts(list) {
@@ -52,12 +56,19 @@ function renderProducts(list) {
     const description = p.description;
     const image = getImageUrl(p.image);
     const price = Number(p.price);
+    const rating = p.rating ? p.rating : { rate: 0, count: 0 };
     const card = document.createElement("article");
     card.className = "produto";  
     card.innerHTML = `
       <img src="${image}" alt="${title}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER_IMAGE}'">
       <h3>${title}</h3>
       <p class="desc">${description}</p>
+      <p class="rating">
+    <span class="stars">${renderRatings(rating.rate)}</span>
+    <span class="count">
+      ${rating.rate} (${rating.count})
+    </span>
+  </p>
       <p class="preco">${formatEUR(price)}</p>
       <button data-id="${id}">+ Add to Cart</button>
     `;
@@ -79,12 +90,35 @@ function aplicarFiltrosOrdenacaoPesquisa() {
     lista = lista.filter((p) => String(p.title).toLowerCase().includes(t));
   }
   if (view.order === "asc") {
-    lista.sort((a, b) => (Number(a.price)) - (Number(b.price)));
-  } else if (view.order === "desc") {
-    lista.sort((a, b) => (Number(b.price)) - (Number(a.price)));
+    lista.sort((a, b) => Number(a.price) - Number(b.price));
   }
+  else if (view.order === "desc") {
+    lista.sort((a, b) => Number(b.price) - Number(a.price));
+  }
+  /*else if (view.order === "popular") {
+  lista.sort((a, b) =>
+    (b.rating?.count || 0) - (a.rating?.count || 0)
+  );
+  }
+
+  else if (view.order === "rating") {
+    lista.sort((a, b) =>
+      (b.rating?.rate || 0) - (a.rating?.rate || 0)
+    );
+  }
+  else if (view.order === "az") {
+    lista.sort((a, b) =>
+      a.title.localeCompare(b.title)
+    );
+  }
+  else if (view.order === "za") {
+    lista.sort((a, b) =>
+      b.title.localeCompare(a.title)
+    );
+  }*/
   renderProducts(lista);
 }
+
 
 function preencherCategorias() {
   if (!els.filtro) return;
@@ -199,9 +233,13 @@ async function comprar() {
     }
 
     
-    els.valorFinal.innerHTML =
-      `<strong>Total to pay: ${formatEUR(data.totalCost)}</strong>`;
-
+    els.valorFinal.innerHTML = `
+  <p style="color: green;">
+    ${data.message || "Compra efetuada com sucesso!"} //mensagem de sucessp
+  </p>
+  <strong>Total a pagar: ${formatEUR(data.totalCost)}</strong>
+`;
+    
     els.ref.textContent =
       `Payment reference: ${data.reference}`;
 
