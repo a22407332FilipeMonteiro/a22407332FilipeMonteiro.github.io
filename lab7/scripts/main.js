@@ -36,6 +36,10 @@ const els = {
   valorFinal: document.querySelector("#valorFinal"),
   ref: document.querySelector("#referenciaPagamento"),
   erroCompra: document.querySelector("#erroCompra"),
+  //nome: document.querySelector("#nomeCliente"),
+  //btnLimpar : document.querySelector("#btnLimparCarrinho"),
+  //btnLimparFiltros: document.querySelector("#btnLimparFiltros"),
+
 };
 
 let products = [];
@@ -78,6 +82,20 @@ function renderProducts(list) {
   });
 }
 
+/*function limparFiltros() {
+  // reset do estado interno
+  view = { category: "", order: "", term: "" };
+
+  // reset dos controlos na UI
+  if (els.filtro) els.filtro.value = "";
+  if (els.ordenar) els.ordenar.value = "";
+  if (els.search) els.search.value = "";
+
+  // re-render
+  aplicarFiltrosOrdenacaoPesquisa();
+}*/
+
+
 function aplicarFiltrosOrdenacaoPesquisa() {
   let lista = [...products];
   if (view.category) {
@@ -87,7 +105,7 @@ function aplicarFiltrosOrdenacaoPesquisa() {
   }
   if (view.term) {
     const t = view.term.toLowerCase();
-    lista = lista.filter((p) => String(p.title).toLowerCase().includes(t));
+    lista = lista.filter((p) => String(p.title).toLowerCase().includes(t)/* || String(p.description).toLowerCase().includes(t)*/);
   }
   if (view.order === "asc") {
     lista.sort((a, b) => Number(a.price) - Number(b.price));
@@ -180,6 +198,15 @@ function addToCart(id) {
   renderCart(cart);
 }
 
+/*function limparCarrinho() {
+  saveCart([]);       
+  renderCart([]);    
+  if (els.erroCompra) els.erroCompra.textContent = "";
+  if (els.valorFinal) els.valorFinal.textContent = "";
+  if (els.ref) els.ref.textContent = "";
+}*/
+
+
 function removeFromCart(id) {
   const cart = getCart().filter((i) => String(i.id) !== String(id));
   saveCart(cart);
@@ -207,11 +234,13 @@ async function comprar() {
     }
   });
 
+  const nome = (els.nome?.value || "").trim();
+
   const payload = {
     products: productsIds,
     student: !!(els.isStudent && els.isStudent.checked),
     coupon: els.cupao && els.cupao.value ? els.cupao.value : "",
-    name: "Cliente DEISI"
+    name: nome || "DeisiClient",
   };
 
   try {
@@ -235,7 +264,7 @@ async function comprar() {
     
     els.valorFinal.innerHTML = `
   <p style="color: green;">
-    ${data.message || "Compra efetuada com sucesso!"} //mensagem de sucessp
+    ${data.message} 
   </p>
   <strong>Total a pagar: ${formatEUR(data.totalCost)}</strong>
 `;
@@ -310,4 +339,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
   if (els.btnComprar) els.btnComprar.addEventListener("click", comprar);
+
+  //if (els.btnLimpar) els.btnLimpar.addEventListener("click", limparCarrinho);
+
+  /*if (els.btnLimparFiltros) {
+  els.btnLimparFiltros.addEventListener("click", limparFiltros);
+  }*/
+
+
 });
